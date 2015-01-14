@@ -15,5 +15,9 @@
     "ffmpeg"
   ],
   "author": "Rocco De Patto <rocco.depatto@gmail.com> (http://lesion.github.io/)",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "mocha": "^2.1.0"
+  }
 }
