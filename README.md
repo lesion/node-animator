@@ -1,4 +1,8 @@
-imgtoffmpeg
+Animator 0.1
+============
+
+Currently working on it!
+
 
 ## When to use:
   1. You have lot of images
