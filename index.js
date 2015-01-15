@@ -1,18 +1,29 @@
 var ffmpeg = require('fluent-ffmpeg');
 
-// TODO / 
+// TODO
+// 1. from images to video
+// - choose an aspect ratio
+// - discover images size
+// - if aspect is not the same as images add cropping filter (default in the middle)
+// - enable to choose where to crop (top/bottom/center/N)
+
 
 module.exports = function Animator(){
 
   /** default encoding options **/
   var encodingOpts= {
     images_paths: [],
-    inFPS: 8,
-    outFPS: 30,
+    inFPS: 25,
+    outFPS: 25,
     movie_path: './out.mp4',
   };
 
 
+  /**
+   * @private
+   * @method commonOptions
+   * add a fluent-ffmpeg preset wiht default options
+   */
   function commonOptions(command){
     command
     .videoCodec('libx264')
@@ -22,13 +33,30 @@ module.exports = function Animator(){
     .inputFps(encodingOpts.inFPS)
     //.withVideoFilter('crop=1024:720:0:120')
     .save(encodingOpts.movie_path)
-    .on('progress', function(info){ console.log(info); })
-    .on('error',function(err){ console.log(err.message); })
+    .on('progress', onProgress )
+    .on('error',onError)
     .on('start', function(commandLine) {
           console.log('Spawned Ffmpeg with command: ' + commandLine);
             })
-    .on('end',function(){ console.log("done"); });
+    .on('end',onEnd);
+  }
 
+  function onProgress(info){
+    console.log(info);
+  }
+
+  function onError(error){
+    console.log(error.message);
+  }
+
+  function onEnd(){
+    console.log("DONE!");
+  }
+
+  function preEncode(){
+    console.log('Inside preEncode');
+    //has to calculate image size
+    if(encodingOpts.images_paths.length===0) return;
 
   }
 
@@ -44,7 +72,7 @@ module.exports = function Animator(){
 
   return  {
   /**
-   * @method animator#addPath
+   * @method Animator#addPath
    * @param {String} path
    */
   addPath: function(path){
@@ -61,13 +89,12 @@ module.exports = function Animator(){
   },
 
 
-
   fastEncode: function(){
     if(encodingOpts.images_paths.length===0)
       return;
 
     ffmpeg()
-    .preset(fastEncoding)
+    .preset(fastEncoding);
 
   },
 

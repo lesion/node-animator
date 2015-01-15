@@ -17,3 +17,4 @@ imgtoffmpeg
 ## Video encoding 
   1. You want really fast encoding to preview
   2. You want high quality video
+
